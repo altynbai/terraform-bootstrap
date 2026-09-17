@@ -1,11 +1,11 @@
 variable "dynamodb_table_name" {
-  type = string
-  default = "digital-portal-terraform-state"
+  type    = string
+  default = "customer-id-platform-terraform-state"
 }
 
 variable "s3_bucket_name" {
-  type = string
-  default = "digital-portal-terraform-state-stg"
+  type    = string
+  default = "customer-id-platform-terraform-state-tst"
 }
 
 variable "aws_region" {
