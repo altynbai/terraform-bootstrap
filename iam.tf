@@ -9,7 +9,7 @@ resource "aws_iam_role" "bi_nom_github_actions_role" {
         Sid    = ""
         Effect = "Allow"
         Principal = {
-          Federated = "arn:aws:iam::733850978971:oidc-provider/token.actions.githubusercontent.com"
+          Federated = "arn:aws:iam::472639330171:oidc-provider/token.actions.githubusercontent.com"
         }
         Action = "sts:AssumeRoleWithWebIdentity"
         Condition = {
@@ -46,13 +46,13 @@ resource "aws_iam_role_policy" "bi_nom_github_actions_policy" {
           "dynamodb:DescribeTable",
           "dynamodb:DeleteItem"
         ]
-        Resource = "arn:aws:dynamodb:eu-west-1:733850978971:table/bi-nom-terraform-state"
+        Resource = "arn:aws:dynamodb:eu-west-1:472639330171:table/bi-nom-terraform-state"
       },
       {
         Sid      = ""
         Effect   = "Allow"
         Action   = "s3:ListBucket"
-        Resource = "arn:aws:s3:::bi-nom-terraform-state-tst"
+        Resource = "arn:aws:s3:::bi-nom-terraform-state-stg"
       },
       {
         Sid    = ""
@@ -62,19 +62,19 @@ resource "aws_iam_role_policy" "bi_nom_github_actions_policy" {
           "s3:GetObject",
           "s3:DeleteObject"
         ]
-        Resource = "arn:aws:s3:::bi-nom-terraform-state-tst/*"
+        Resource = "arn:aws:s3:::bi-nom-terraform-state-stg/*"
       },
       {
         Sid      = ""
         Effect   = "Allow"
         Action   = "ssm:GetParameter"
-        Resource = "arn:aws:ssm:eu-west-1:733850978971:parameter/terraform.tfvars.json"
+        Resource = "arn:aws:ssm:eu-west-1:472639330171:parameter/terraform.tfvars.json"
       },
       {
         Sid      = ""
         Effect   = "Allow"
         Action   = "sts:AssumeRole"
-        Resource = "arn:aws:iam::733850978971:role/bi-nom-github-actions-role-admin"
+        Resource = "arn:aws:iam::472639330171:role/bi-nom-github-actions-role-admin"
       },
       {
         Sid      = ""
@@ -102,7 +102,7 @@ resource "aws_iam_role" "bi_nom_github_actions_role_admin" {
         Sid    = ""
         Effect = "Allow"
         Principal = {
-          AWS = "arn:aws:iam::733850978971:role/bi-nom-github-actions-role"
+          AWS = "arn:aws:iam::472639330171:role/bi-nom-github-actions-role"
         }
         Action = "sts:AssumeRole"
       }

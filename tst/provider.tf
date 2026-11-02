@@ -1,7 +1,7 @@
 provider "aws" {
   region = var.region
   assume_role {
-    role_arn = "arn:aws:iam::${var.accounts["tst"]}:role/${var.github_role_name}"
+    role_arn = "arn:aws:iam::${var.accounts["stg"]}:role/${var.github_role_name}"
   }
 }
 
@@ -19,6 +19,6 @@ provider "aws" {
   alias  = "us_east_1"
   region = "us-east-1"
   assume_role {
-    role_arn = "arn:aws:iam::${var.accounts["tst"]}:role/${var.github_role_name}"
+    role_arn = "arn:aws:iam::${var.accounts["stg"]}:role/${var.github_role_name}"
   }
 }
