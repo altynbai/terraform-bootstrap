@@ -26,7 +26,7 @@ terraform version
 4. Configure IAM roles in GitHub repo settings
    - Add new environment
    - Secrets and variables
-   - AWS_ROLE_[] -- arn:aws:iam::686333685757:role/bi-nom-github-actions-role
+   - AWS_ROLE_[] -- arn:aws:iam::984625844635:role/cust-dev-github-actions-role
      - TF_STATE_BUCKET_[] -- bi-nom-terraform-state-stg
 5. Add terraform.tfvars.json into SSM Paramter Store
 6.
