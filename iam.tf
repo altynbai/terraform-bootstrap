@@ -15,8 +15,8 @@ resource "aws_iam_role" "cust_dev_github_actions_role" {
         Condition = {
           StringLike = {
             "token.actions.githubusercontent.com:sub" = [
-              "repo:IAG-Cargo/bi-nom*:*",
-              "repo:IAG-Cargo@*/bi-nom*:*"
+              "repo:IAG-Cargo/digital-distribution*:*",
+              "repo:IAG-Cargo/digital-distribution@*/digital-distribution*:*"
             ]
           }
         }
