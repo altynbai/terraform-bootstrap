@@ -5,7 +5,7 @@ variable "dynamodb_table_name" {
 
 variable "s3_bucket_name" {
   type    = string
-  default = "cust-dev-terraform-state-stg"
+  default = "cust-dev-terraform-state-dev"
 }
 
 variable "aws_region" {
