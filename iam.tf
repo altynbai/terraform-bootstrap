@@ -1,6 +1,6 @@
 # IAM role for GitHub Actions
-resource "aws_iam_role" "bi_nom_github_actions_role" {
-  name = "bi-nom-github-actions-role"
+resource "aws_iam_role" "sfdc_integration_github_actions_role" {
+  name = "sfdc-integration-github-actions-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -9,14 +9,16 @@ resource "aws_iam_role" "bi_nom_github_actions_role" {
         Sid    = ""
         Effect = "Allow"
         Principal = {
-          Federated = "arn:aws:iam::024196521231:oidc-provider/token.actions.githubusercontent.com"
+          Federated = "arn:aws:iam::212102926396:oidc-provider/token.actions.githubusercontent.com"
         }
         Action = "sts:AssumeRoleWithWebIdentity"
         Condition = {
           StringLike = {
             "token.actions.githubusercontent.com:sub" = [
-              "repo:IAG-Cargo/bi-nom*:*",
-              "repo:IAG-Cargo@*/bi-nom*:*"
+              "repo:IAG-Cargo/sfdc-integration*:*",
+              "repo:IAG-Cargo@*/sfdc-integration*:*",
+              "repo:IAG-Cargo/digital-distribution*:*",
+              "repo:IAG-Cargo@*/digital-distribution*:*"
             ]
           }
         }
@@ -25,14 +27,14 @@ resource "aws_iam_role" "bi_nom_github_actions_role" {
   })
 
   tags = {
-    Name = "bi-nom-github-actions-role"
+    Name = "sfdc-integration-github-actions-role"
   }
 }
 
 # IAM policy for GitHub Actions role
-resource "aws_iam_role_policy" "bi_nom_github_actions_policy" {
-  name = "bi-nom-github-actions-policy"
-  role = aws_iam_role.bi_nom_github_actions_role.id
+resource "aws_iam_role_policy" "sfdc_integration_github_actions_policy" {
+  name = "sfdc-integration-github-actions-policy"
+  role = aws_iam_role.sfdc_integration_github_actions_role.id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -46,13 +48,13 @@ resource "aws_iam_role_policy" "bi_nom_github_actions_policy" {
           "dynamodb:DescribeTable",
           "dynamodb:DeleteItem"
         ]
-        Resource = "arn:aws:dynamodb:eu-west-1:024196521231:table/bi-nom-terraform-state"
+        Resource = "arn:aws:dynamodb:eu-west-1:212102926396:table/sfdc-integration-terraform-state"
       },
       {
         Sid      = ""
         Effect   = "Allow"
         Action   = "s3:ListBucket"
-        Resource = "arn:aws:s3:::bi-nom-terraform-state-prod"
+        Resource = "arn:aws:s3:::sfdc-integration-terraform-state-dev"
       },
       {
         Sid    = ""
@@ -62,19 +64,19 @@ resource "aws_iam_role_policy" "bi_nom_github_actions_policy" {
           "s3:GetObject",
           "s3:DeleteObject"
         ]
-        Resource = "arn:aws:s3:::bi-nom-terraform-state-prod/*"
+        Resource = "arn:aws:s3:::sfdc-integration-terraform-state-dev/*"
       },
       {
         Sid      = ""
         Effect   = "Allow"
         Action   = "ssm:GetParameter"
-        Resource = "arn:aws:ssm:eu-west-1:024196521231:parameter/terraform.tfvars.json"
+        Resource = "arn:aws:ssm:eu-west-1:212102926396:parameter/terraform.tfvars.json"
       },
       {
         Sid      = ""
         Effect   = "Allow"
         Action   = "sts:AssumeRole"
-        Resource = "arn:aws:iam::024196521231:role/bi-nom-github-actions-role-admin"
+        Resource = "arn:aws:iam::212102926396:role/sfdc-integration-github-actions-role-admin"
       },
       {
         Sid      = ""
@@ -92,8 +94,8 @@ resource "aws_iam_role_policy" "bi_nom_github_actions_policy" {
 }
 
 # IAM role for GitHub Actions Admin
-resource "aws_iam_role" "bi_nom_github_actions_role_admin" {
-  name = "bi-nom-github-actions-role-admin"
+resource "aws_iam_role" "sfdc_integration_github_actions_role_admin" {
+  name = "sfdc-integration-github-actions-role-admin"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -102,7 +104,7 @@ resource "aws_iam_role" "bi_nom_github_actions_role_admin" {
         Sid    = ""
         Effect = "Allow"
         Principal = {
-          AWS = "arn:aws:iam::024196521231:role/bi-nom-github-actions-role"
+          AWS = "arn:aws:iam::212102926396:role/sfdc-integration-github-actions-role"
         }
         Action = "sts:AssumeRole"
       }
@@ -110,12 +112,12 @@ resource "aws_iam_role" "bi_nom_github_actions_role_admin" {
   })
 
   tags = {
-    Name = "bi-nom-github-actions-role-admin"
+    Name = "sfdc-integration-github-actions-role-admin"
   }
 }
 
 # Attach AdministratorAccess policy to the admin role
-resource "aws_iam_role_policy_attachment" "bi_nom_github_actions_admin_policy" {
-  role       = aws_iam_role.bi_nom_github_actions_role_admin.name
+resource "aws_iam_role_policy_attachment" "sfdc_integration_github_actions_admin_policy" {
+  role       = aws_iam_role.sfdc_integration_github_actions_role_admin.name
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
